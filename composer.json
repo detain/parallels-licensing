@@ -15,7 +15,8 @@
     },
     "require": {
         "php": ">=5.0.0",
-        "ext-soap": "*"
+        "ext-soap": "*",
+        "pear/xml_rpc2": "*"
     },
     "autoload": {
         "psr-4": {"Detain\\Parallels\\": "src/"}
