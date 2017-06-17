@@ -33,24 +33,22 @@ class Parallels
 	public $xml;
 
 	/**
-	 * Parallels::__construct()
-	 * @param bool $login
-	 * @param bool $password
-	 * @param bool $client
-	 * @param bool $demo
-	 * @param bool $xml_options
-	 * @return \Parallels
+	 * @param null|string $login api login, null(default) to use the PARALLELS_KA_LOGIN setting
+	 * @param null|string $password api password, null(default) to use the PARALLELS_KA_PASSWORD setting
+	 * @param null|string $client api client, null(default) to use the PARALLELS_KA_CLIENT setting
+	 * @param bool $demo defaults to false, whether or not to use the demo interface instae dof the normal one
+	 * @param null|array $xml_options array of optoins ot pass to xmlrpc2 client
 	 */
-	public function __construct($login = false, $password = false, $client = false, $demo = false, $xml_options = false) {
-		if ($login === false && defined('PARALLELS_KA_LOGIN'))
+	public function __construct($login = null, $password = null, $client = null, $demo = false, $xml_options = null) {
+		if (is_null($login) && defined('PARALLELS_KA_LOGIN'))
 			$this->login = constant('PARALLELS_KA_LOGIN');
 		else
 			$this->login = $login;
-		if ($password === false && defined('PARALLELS_KA_PASSWORD'))
+		if (is_null($password) && defined('PARALLELS_KA_PASSWORD'))
 			$this->password = constant('PARALLELS_KA_PASSWORD');
 		else
 			$this->password = $password;
-		if ($client !== false)
+		if (!is_null($client))
 			$this->client = $client;
 		elseif (defined('PARALLELS_KA_CLIENT'))
 			$this->client = constant('PARALLELS_KA_CLIENT');
@@ -60,7 +58,7 @@ class Parallels
 			$this->url = $this->default_url;
 		else
 			$this->url = $demo;
-		if ($xml_options !== false)
+		if (!is_null($xml_options))
 			$this->xml_options = $xml_options;
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
@@ -349,235 +347,184 @@ class Parallels
 	}
 
 	/**
+	 * Returns an array with keys 'resultCode', 'resultDesc', and 'upgradePlans'.  the last one being an array of plan names, one time i wrote down the output it looked like:
+	 * 3_LANGUAGE_PACKS FOTOLIA_OFF 5_LANGUAGE_PACKS  NEWSFEED_OFF VIRTUOZZO_PROMO_OFF ADDITIONAL_LANGUAGE_PACK were some of the packqage types, there wer eothers
+	 *
 	 * @param $Key
 	 * @return mixed
 	 */
 	public function getAvailableUpgrades($Key) {
 		$this->response = $this->xml->__call('partner10.getAvailableUpgrades', array($this->AuthInfo(), $Key));
 		return $this->response;
-		/* Success
-		Array
-		(
-		[upgradePlans] => Array
-		(
-		[0] => 3_LANGUAGE_PACKS
-		[1] => FOTOLIA_OFF
-		[2] => 5_LANGUAGE_PACKS
-		[3] => NEWSFEED_OFF
-		[4] => VIRTUOZZO_PROMO_OFF
-		[5] => ADDITIONAL_LANGUAGE_PACK
-		[6] => DISABLE_SITEBUILDER
-		[7] => 4_LANGUAGE_PACKS
-		[8] => DISABLE_FEATURE_UPGRADES
-		[9] => 1_LANGUAGE_PACK
-		[10] => STORE_BUTTON_OFF
-		[11] => PLESK_SWSOFT_SERVICES_OFF
-		[12] => DISABLE_GOOGLE_TOOLS
-		[13] => 2_LANGUAGE_PACKS
-		[14] => EXTRAS_BUTTONS_OFF
-		[15] => PLESK-UNLIMITED-PB-ACCOUNTS
-		)
-
-		[resultCode] => 100
-		[resultDesc] => Following upgrade plans are available for given key: 3_LANGUAGE_PACKS, FOTOLIA_OFF, 5_LANGUAGE_PACKS, NEWSFEED_OFF, VIRTUOZZO_PROMO_OFF, ADDITIONAL_LANGUAGE_PACK, DISABLE_SITEBUILDER, 4_LANGUAGE_PACKS, DISABLE_FEATURE_UPGRADES, 1_LANGUAGE_PACK, STORE_BUTTON_OFF, PLESK_SWSOFT_SERVICES_OFF, DISABLE_GOOGLE_TOOLS, 2_LANGUAGE_PACKS, EXTRAS_BUTTONS_OFF, PLESK-UNLIMITED-PB-ACCOUNTS
-		)
-		*/
 	}
 
 	/**
+	 * Success
+	 * Array
+	 * (
+	 * [keyInfo] => Array
+	 * (
+	 * [expirationDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131202T00:00:00
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1385942400
+	 * )
+	 * )
+	 * [features] => Array
+	 * (
+	 * [0] => Array
+	 * (
+	 * [apiName] => PLESK_7X_FOR_WIN_POWER_PACK
+	 * [name] => Parallels PowerPack for Plesk (Windows) (Monthly Lease)
+	 * )
+	 * [1] => Array
+	 * (
+	 * [apiName] => PLESK-100-SITES
+	 * [name] => Parallels Web Presence Builder - 100 Sites (Monthly Lease)
+	 * )
+	 * [2] => Array
+	 * (
+	 * [apiName] => UNLIMITED_DOMAINS
+	 * [name] => Unlimited Domains w/1 yr SUS (Lease)
+	 * )
+	 * )
+	 * [billingType] => LEASE
+	 * [productFamily] => plesk
+	 * [createDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131023T18:02:11
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1382551331
+	 * )
+	 * [trial] =>
+	 * [lastReportingDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131029T06:27:31
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1383028051
+	 * )
+	 * [additionalKeys] => Array
+	 * (
+	 * [0] => Array
+	 * (
+	 * [expirationDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131202T00:00:00
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1385942400
+	 * )
+	 * [lastReportingIp] => 206.72.205.242, 206.72.205.243, 206.72.205.244, 206.72.205.245, 206.72.205.246
+	 * [apiKeyType] => N/A
+	 * [boundIPAddress] =>
+	 * [problem] =>
+	 * [keyNumber] => KAV.00005821.0001
+	 * [properties] => Array
+	 * (
+	 * )
+	 * [type] => ADDITIONAL
+	 * [updateDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131122T00:00:00
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1385078400
+	 * )
+	 * [clientId] => 19282468
+	 * [parentKeyNumber] => PLSK.00005819.0000
+	 * [lastReportingVersion] => 11.5.3
+	 * [keyType] => Parallels Plesk Panel Antivirus Powered by Kaspersky, 5 Mailboxes (Parallels PowerPack for Plesk) (Windows) (Monthly Lease)
+	 * [terminated] =>
+	 * [susAndSupportInfo] => Array
+	 * (
+	 * )
+	 * [features] => Array
+	 * (
+	 * )
+	 * [billingType] => LEASE
+	 * [productFamily] => kav
+	 * [createDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131023T18:02:12
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1382551332
+	 * )
+	 * [trial] =>
+	 * [lastReportingDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131023T18:05:24
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1382551524
+	 * )
+	 * [additionalKeys] => Array
+	 * (
+	 * )
+	 * )
+	 * [1] => Array
+	 * (
+	 * [expirationDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131202T00:00:00
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1385942400
+	 * )
+	 * [lastReportingIp] => 206.72.205.242, 206.72.205.243, 206.72.205.244, 206.72.205.245, 206.72.205.246
+	 * [apiKeyType] => N/A
+	 * [boundIPAddress] =>
+	 * [problem] =>
+	 * [keyNumber] => APS.00005820.0001
+	 * [properties] => Array
+	 * (
+	 * )
+	 * [type] => ADDITIONAL
+	 * [updateDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131122T00:00:00
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1385078400
+	 * )
+	 * [clientId] => 19282468
+	 * [parentKeyNumber] => PLSK.00005819.0000
+	 * [lastReportingVersion] => 11.5.3
+	 * [keyType] => UNITY One, 2 Domains (Parallels PowerPack for Plesk) (Windows) (Monthly Lease)
+	 * [terminated] =>
+	 * [susAndSupportInfo] => Array
+	 * (
+	 * )
+	 * [features] => Array
+	 * (
+	 * )
+	 * [billingType] => LEASE
+	 * [productFamily] => unity-one
+	 * [createDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131023T18:02:11
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1382551331
+	 * )
+	 * [trial] =>
+	 * [lastReportingDate] => stdClass Object
+	 * (
+	 * [scalar] => 20131023T18:05:26
+	 * [xmlrpc_type] => datetime
+	 * [timestamp] => 1382551526
+	 * )
+	 * [additionalKeys] => Array
+	 * (
+	 * )
+	 * )
+	 * )
+	 * )
+	 *[resultCode] => 100
+	 * [resultDesc] => Key info for PLSK.00005819.0000 key returned successfully
+	 * [keyNumber] => PLSK.00005819.0000
+	 * )
+	 *
 	 * @param $Key
 	 * @return mixed
 	 */
 	public function getKeyInfo($Key) {
 		$this->response = $this->xml->__call('partner10.getKeyInfo', array($this->AuthInfo(), $Key));
 		return $this->response;
-		/* Success
-		Array
-		(
-		[keyInfo] => Array
-		(
-		[expirationDate] => stdClass Object
-		(
-		[scalar] => 20131202T00:00:00
-		[xmlrpc_type] => datetime
-		[timestamp] => 1385942400
-		)
-		)
-
-		[features] => Array
-		(
-		[0] => Array
-		(
-		[apiName] => PLESK_7X_FOR_WIN_POWER_PACK
-		[name] => Parallels PowerPack for Plesk (Windows) (Monthly Lease)
-		)
-
-		[1] => Array
-		(
-		[apiName] => PLESK-100-SITES
-		[name] => Parallels Web Presence Builder - 100 Sites (Monthly Lease)
-		)
-
-		[2] => Array
-		(
-		[apiName] => UNLIMITED_DOMAINS
-		[name] => Unlimited Domains w/1 yr SUS (Lease)
-		)
-
-		)
-
-		[billingType] => LEASE
-		[productFamily] => plesk
-		[createDate] => stdClass Object
-		(
-		[scalar] => 20131023T18:02:11
-		[xmlrpc_type] => datetime
-		[timestamp] => 1382551331
-		)
-
-		[trial] =>
-		[lastReportingDate] => stdClass Object
-		(
-		[scalar] => 20131029T06:27:31
-		[xmlrpc_type] => datetime
-		[timestamp] => 1383028051
-		)
-
-		[additionalKeys] => Array
-		(
-		[0] => Array
-		(
-		[expirationDate] => stdClass Object
-		(
-		[scalar] => 20131202T00:00:00
-		[xmlrpc_type] => datetime
-		[timestamp] => 1385942400
-		)
-
-		[lastReportingIp] => 206.72.205.242, 206.72.205.243, 206.72.205.244, 206.72.205.245, 206.72.205.246
-		[apiKeyType] => N/A
-		[boundIPAddress] =>
-		[problem] =>
-		[keyNumber] => KAV.00005821.0001
-		[properties] => Array
-		(
-		)
-
-		[type] => ADDITIONAL
-		[updateDate] => stdClass Object
-		(
-		[scalar] => 20131122T00:00:00
-		[xmlrpc_type] => datetime
-		[timestamp] => 1385078400
-		)
-
-		[clientId] => 19282468
-		[parentKeyNumber] => PLSK.00005819.0000
-		[lastReportingVersion] => 11.5.3
-		[keyType] => Parallels Plesk Panel Antivirus Powered by Kaspersky, 5 Mailboxes (Parallels PowerPack for Plesk) (Windows) (Monthly Lease)
-		[terminated] =>
-		[susAndSupportInfo] => Array
-		(
-		)
-
-		[features] => Array
-		(
-		)
-
-		[billingType] => LEASE
-		[productFamily] => kav
-		[createDate] => stdClass Object
-		(
-		[scalar] => 20131023T18:02:12
-		[xmlrpc_type] => datetime
-		[timestamp] => 1382551332
-		)
-
-		[trial] =>
-		[lastReportingDate] => stdClass Object
-		(
-		[scalar] => 20131023T18:05:24
-		[xmlrpc_type] => datetime
-		[timestamp] => 1382551524
-		)
-
-		[additionalKeys] => Array
-		(
-		)
-
-		)
-
-		[1] => Array
-		(
-		[expirationDate] => stdClass Object
-		(
-		[scalar] => 20131202T00:00:00
-		[xmlrpc_type] => datetime
-		[timestamp] => 1385942400
-		)
-
-		[lastReportingIp] => 206.72.205.242, 206.72.205.243, 206.72.205.244, 206.72.205.245, 206.72.205.246
-		[apiKeyType] => N/A
-		[boundIPAddress] =>
-		[problem] =>
-		[keyNumber] => APS.00005820.0001
-		[properties] => Array
-		(
-		)
-
-		[type] => ADDITIONAL
-		[updateDate] => stdClass Object
-		(
-		[scalar] => 20131122T00:00:00
-		[xmlrpc_type] => datetime
-		[timestamp] => 1385078400
-		)
-
-		[clientId] => 19282468
-		[parentKeyNumber] => PLSK.00005819.0000
-		[lastReportingVersion] => 11.5.3
-		[keyType] => UNITY One, 2 Domains (Parallels PowerPack for Plesk) (Windows) (Monthly Lease)
-		[terminated] =>
-		[susAndSupportInfo] => Array
-		(
-		)
-
-		[features] => Array
-		(
-		)
-
-		[billingType] => LEASE
-		[productFamily] => unity-one
-		[createDate] => stdClass Object
-		(
-		[scalar] => 20131023T18:02:11
-		[xmlrpc_type] => datetime
-		[timestamp] => 1382551331
-		)
-
-		[trial] =>
-		[lastReportingDate] => stdClass Object
-		(
-		[scalar] => 20131023T18:05:26
-		[xmlrpc_type] => datetime
-		[timestamp] => 1382551526
-		)
-
-		[additionalKeys] => Array
-		(
-		)
-
-		)
-
-		)
-
-		)
-
-		[resultCode] => 100
-		[resultDesc] => Key info for PLSK.00005819.0000 key returned successfully
-		[keyNumber] => PLSK.00005819.0000
-		)
-		*/
 	}
 
 	/**
