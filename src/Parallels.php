@@ -22,7 +22,7 @@ namespace Detain\Parallels;
 class Parallels
 {
 	public $LicenseType = 'billing'; // billing or purchase
-	private $xmlOptions = array('sslverify' => false);
+	private $xmlOptions = array('sslverify' => FALSE);
 	private $defaultUrl = 'https://ka.parallels.com:7050/';
 	private $defaultDemoUrl = 'https://kademo.parallels.com:7050/';
 	public $url = '';
@@ -39,7 +39,7 @@ class Parallels
 	 * @param bool $demo defaults to false, whether or not to use the demo interface instae dof the normal one
 	 * @param null|array $xmlOptions array of optoins ot pass to xmlrpc2 client
 	 */
-	public function __construct($login = null, $password = null, $client = null, $demo = false, $xmlOptions = null) {
+	public function __construct($login = NULL, $password = NULL, $client = NULL, $demo = FALSE, $xmlOptions = NULL) {
 		if (is_null($login) && defined('PARALLELS_KA_LOGIN'))
 			$this->login = constant('PARALLELS_KA_LOGIN');
 		else
@@ -52,9 +52,9 @@ class Parallels
 			$this->client = $client;
 		elseif (defined('PARALLELS_KA_CLIENT'))
 			$this->client = constant('PARALLELS_KA_CLIENT');
-		if ($demo === true)
+		if ($demo === TRUE)
 			$this->url = $this->defaultDemoUrl;
-		elseif ($demo === false)
+		elseif ($demo === FALSE)
 			$this->url = $this->defaultUrl;
 		else
 			$this->url = $demo;
@@ -131,8 +131,8 @@ class Parallels
 	 * @param bool $Email
 	 * @return mixed
 	 */
-	public function sendKeyByEmail($Key, $Email = false) {
-		if ($Email === false)
+	public function sendKeyByEmail($Key, $Email = FALSE) {
+		if ($Email === FALSE)
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', array($this->AuthInfo(), $Key));
 		else
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', array($this->AuthInfo(), $Key, $Email));
@@ -148,16 +148,16 @@ class Parallels
 	 * @param bool  $client
 	 * @return mixed
 	 */
-	public function createKey($KeyType, $UpgradePlans = array(), $ips = array(), $macs = array(), $LicenseType = false, $client = false) {
+	public function createKey($KeyType, $UpgradePlans = array(), $ips = array(), $macs = array(), $LicenseType = FALSE, $client = FALSE) {
 		if (!is_array($ips) && $ips != '')
 			$ips = array($ips);
 		$this->response = $this->xml->__call('partner10.createKey', array(
 			$this->AuthInfo(),
 			$this->ServerAddress($ips, $macs),
-			($client === false ? $this->client : $client),
+			($client === FALSE ? $this->client : $client),
 			$KeyType,
 			$UpgradePlans,
-			($LicenseType === false ? $this->LicenseType : $LicenseType)));
+			($LicenseType === FALSE ? $this->LicenseType : $LicenseType)));
 		return $this->response;
 		/* Success:
 		Array
@@ -534,17 +534,17 @@ class Parallels
 	public function getMainKeyFromIp($ip) {
 		$response = $this->getKeyNumbers($ip);
 		//$response = $this->getKeysInfoByIP($ip);
-		$return = false;
+		$return = FALSE;
 		if (isset($response['keyInfos'])) {
 			foreach ($response['keyInfos'] as $idx => $data) {
-				if ($return === false)
+				if ($return === FALSE)
 					$return = $data['keyNumber'];
 				if ($data['type'] == 'MAIN')
 					$return = $data['keyNumber'];
 			}
 			return $return;
 		} else
-			return false;
+			return FALSE;
 	}
 
 	/**
@@ -690,8 +690,8 @@ class Parallels
 	 * @param bool $client
 	 * @return mixed
 	 */
-	public function getAvailableKeyTypesAndFeatures($client = false) {
-		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', array($this->AuthInfo(), ($client === false ? $this->client : $client)));
+	public function getAvailableKeyTypesAndFeatures($client = FALSE) {
+		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', array($this->AuthInfo(), ($client === FALSE ? $this->client : $client)));
 		return $this->response;
 		/* My Output:
 		Array
