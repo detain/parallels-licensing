@@ -22,7 +22,7 @@ namespace Detain\Parallels;
 class Parallels
 {
 	public $LicenseType = 'billing'; // billing or purchase
-	private $xml_options = array('sslverify' => false);
+	private $xmlOptions = array('sslverify' => false);
 	private $default_url = 'https://ka.parallels.com:7050/';
 	private $default_demo_url = 'https://kademo.parallels.com:7050/';
 	public $url = '';
@@ -37,9 +37,9 @@ class Parallels
 	 * @param null|string $password api password, null(default) to use the PARALLELS_KA_PASSWORD setting
 	 * @param null|string $client api client, null(default) to use the PARALLELS_KA_CLIENT setting
 	 * @param bool $demo defaults to false, whether or not to use the demo interface instae dof the normal one
-	 * @param null|array $xml_options array of optoins ot pass to xmlrpc2 client
+	 * @param null|array $xmlOptions array of optoins ot pass to xmlrpc2 client
 	 */
-	public function __construct($login = null, $password = null, $client = null, $demo = false, $xml_options = null) {
+	public function __construct($login = null, $password = null, $client = null, $demo = false, $xmlOptions = null) {
 		if (is_null($login) && defined('PARALLELS_KA_LOGIN'))
 			$this->login = constant('PARALLELS_KA_LOGIN');
 		else
@@ -58,12 +58,12 @@ class Parallels
 			$this->url = $this->default_url;
 		else
 			$this->url = $demo;
-		if (!is_null($xml_options))
-			$this->xml_options = $xml_options;
+		if (!is_null($xmlOptions))
+			$this->xmlOptions = $xml_options;
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 		require_once('XML/RPC2/Client.php');
-		$this->xml = XML_RPC2_Client::create($this->url, $this->xml_options);
+		$this->xml = XML_RPC2_Client::create($this->url, $this->xmlOptions);
 	}
 
 	/**
