@@ -23,8 +23,8 @@ class Parallels
 {
 	public $LicenseType = 'billing'; // billing or purchase
 	private $xmlOptions = array('sslverify' => false);
-	private $default_url = 'https://ka.parallels.com:7050/';
-	private $default_demo_url = 'https://kademo.parallels.com:7050/';
+	private $defaultUrl = 'https://ka.parallels.com:7050/';
+	private $defaultDemoUrl = 'https://kademo.parallels.com:7050/';
 	public $url = '';
 	public $response;
 	private $client = '';
@@ -53,9 +53,9 @@ class Parallels
 		elseif (defined('PARALLELS_KA_CLIENT'))
 			$this->client = constant('PARALLELS_KA_CLIENT');
 		if ($demo === true)
-			$this->url = $this->default_demo_url;
+			$this->url = $this->defaultDemoUrl;
 		elseif ($demo === false)
-			$this->url = $this->default_url;
+			$this->url = $this->defaultUrl;
 		else
 			$this->url = $demo;
 		if (!is_null($xmlOptions))
