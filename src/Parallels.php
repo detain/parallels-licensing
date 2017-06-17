@@ -19,8 +19,7 @@ namespace Detain\Parallels;
  *
  * @access public
  */
-class Parallels
-{
+class Parallels {
 	public $LicenseType = 'billing'; // billing or purchase
 	private $xmlOptions = array('sslverify' => FALSE);
 	private $defaultUrl = 'https://ka.parallels.com:7050/';
