@@ -30,10 +30,10 @@ class ParallelsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Detain\Parallels\Parallels::AuthInfo
-     * @todo   Implement testAuthInfo().
+     * @covers Detain\Parallels\Parallels::authInfo
+     * @todo   Implement testauthInfo().
      */
-    public function testAuthInfo()
+    public function testauthInfo()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
