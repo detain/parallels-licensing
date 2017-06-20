@@ -62,7 +62,7 @@ class Parallels {
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 		require_once('XML/RPC2/Client.php');
-		$this->xml = XML_RPC2_Client::create($this->url, $this->xmlOptions);
+		$this->xml = \XML_RPC2_Client::create($this->url, $this->xmlOptions);
 	}
 
 	/**
