@@ -527,12 +527,12 @@ class Parallels {
 	}
 
 	/**
-	 * @param $ip
+	 * @param $ipAddress
 	 * @return bool
 	 */
-	public function getMainKeyFromIp($ip) {
-		$response = $this->getKeyNumbers($ip);
-		//$response = $this->getKeysInfoByIP($ip);
+	public function getMainKeyFromIp($ipAddress) {
+		$response = $this->getKeyNumbers($ipAddress);
+		//$response = $this->getKeysInfoByIP($ipAddress);
 		$return = FALSE;
 		if (isset($response['keyInfos'])) {
 			foreach ($response['keyInfos'] as $idx => $data) {
@@ -547,11 +547,11 @@ class Parallels {
 	}
 
 	/**
-	 * @param $ip
+	 * @param $ipAddress
 	 * @return mixed
 	 */
-	public function getKeysInfoByIP($ip) {
-		$this->response = $this->xml->__call('partner10.getKeysInfoByIP', array($this->authInfo(), $ip));
+	public function getKeysInfoByIP($ipAddress) {
+		$this->response = $this->xml->__call('partner10.getKeysInfoByIP', array($this->authInfo(), $ipAddress));
 		return $this->response;
 	}
 
