@@ -20,7 +20,7 @@ namespace Detain\Parallels;
  * @access public
  */
 class Parallels {
-	public $LicenseType = 'billing'; // billing or purchase
+	public $licenseType = 'billing'; // billing or purchase
 	private $xmlOptions = array('sslverify' => FALSE);
 	private $defaultUrl = 'https://ka.parallels.com:7050/';
 	private $defaultDemoUrl = 'https://kademo.parallels.com:7050/';
@@ -127,27 +127,27 @@ class Parallels {
 
 	/**
 	 * @param      $key
-	 * @param bool $Email
+	 * @param bool $email
 	 * @return mixed
 	 */
-	public function sendKeyByEmail($key, $Email = FALSE) {
-		if ($Email === FALSE)
+	public function sendKeyByEmail($key, $email = FALSE) {
+		if ($email === FALSE)
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', array($this->authInfo(), $key));
 		else
-			$this->response = $this->xml->__call('partner10.sendKeyByEmail', array($this->authInfo(), $key, $Email));
+			$this->response = $this->xml->__call('partner10.sendKeyByEmail', array($this->authInfo(), $key, $email));
 		return $this->response;
 	}
 
 	/**
 	 * @param       $keyType
-	 * @param array $UpgradePlans
+	 * @param array $upgradePlans
 	 * @param array $ips
 	 * @param array $macs
-	 * @param bool  $LicenseType
+	 * @param bool  $licenseType
 	 * @param bool  $client
 	 * @return mixed
 	 */
-	public function createKey($keyType, $UpgradePlans = array(), $ips = array(), $macs = array(), $LicenseType = FALSE, $client = FALSE) {
+	public function createKey($keyType, $upgradePlans = array(), $ips = array(), $macs = array(), $licenseType = FALSE, $client = FALSE) {
 		if (!is_array($ips) && $ips != '')
 			$ips = array($ips);
 		$this->response = $this->xml->__call('partner10.createKey', array(
@@ -155,8 +155,8 @@ class Parallels {
 			$this->ServerAddress($ips, $macs),
 			($client === FALSE ? $this->client : $client),
 			$keyType,
-			$UpgradePlans,
-			($LicenseType === FALSE ? $this->LicenseType : $LicenseType)));
+			$upgradePlans,
+			($licenseType === FALSE ? $this->LicenseType : $licenseType)));
 		return $this->response;
 		/* Success:
 		Array
