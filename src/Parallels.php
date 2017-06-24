@@ -58,7 +58,7 @@ class Parallels {
 		else
 			$this->url = $demo;
 		if (!is_null($xmlOptions))
-			$this->xmlOptions = $xml_options;
+			$this->xmlOptions = $xmlOptions;
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 		require_once('XML/RPC2/Client.php');
