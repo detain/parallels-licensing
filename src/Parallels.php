@@ -32,11 +32,11 @@ class Parallels {
 	public $xml;
 
 	/**
-	 * @param null|string $login api login, null(default) to use the PARALLELS_KA_LOGIN setting
-	 * @param null|string $password api password, null(default) to use the PARALLELS_KA_PASSWORD setting
-	 * @param null|string $client api client, null(default) to use the PARALLELS_KA_CLIENT setting
-	 * @param bool $demo defaults to false, whether or not to use the demo interface instae dof the normal one
-	 * @param null|array $xmlOptions array of optoins ot pass to xmlrpc2 client
+	 * @param NULL|string $login api login, NULL(default) to use the PARALLELS_KA_LOGIN setting
+	 * @param NULL|string $password api password, NULL(default) to use the PARALLELS_KA_PASSWORD setting
+	 * @param NULL|string $client api client, NULL(default) to use the PARALLELS_KA_CLIENT setting
+	 * @param bool $demo defaults to FALSE, whether or not to use the demo interface instae dof the normal one
+	 * @param NULL|array $xmlOptions array of optoins ot pass to xmlrpc2 client
 	 */
 	public function __construct($login = NULL, $password = NULL, $client = NULL, $demo = FALSE, $xmlOptions = NULL) {
 		if (is_null($login) && defined('PARALLELS_KA_LOGIN'))
