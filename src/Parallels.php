@@ -77,7 +77,7 @@ class Parallels {
 	 * @param array $macs
 	 * @return array
 	 */
-	public function ServerAddress($ips = array(), $macs = array()) {
+	public function serverAddress($ips = array(), $macs = array()) {
 		if (!is_array($ips) && $ips != '')
 			$ips = array($ips);
 		if (!is_array($macs) && $macs != '')
@@ -152,7 +152,7 @@ class Parallels {
 			$ips = array($ips);
 		$this->response = $this->xml->__call('partner10.createKey', array(
 			$this->authInfo(),
-			$this->ServerAddress($ips, $macs),
+			$this->serverAddress($ips, $macs),
 			($client === FALSE ? $this->client : $client),
 			$keyType,
 			$upgradePlans,
@@ -527,15 +527,16 @@ class Parallels {
 	}
 
 	/**
-	 * @param $ipAddress
-	 * @return bool
+	 * @param string $ipAddress the ip address
+	 * @return false|string false if no key , or a string w/ the key
 	 */
 	public function getMainKeyFromIp($ipAddress) {
 		$response = $this->getKeyNumbers($ipAddress);
 		//$response = $this->getKeysInfoByIP($ipAddress);
 		$return = FALSE;
 		if (isset($response['keyInfos'])) {
-			foreach ($response['keyInfos'] as $idx => $data) {
+			$responseValues = array_values($response['keyInfos']);
+			foreach ($responseValues as $data) {
 				if ($return === FALSE)
 					$return = $data['keyNumber'];
 				if ($data['type'] == 'MAIN')
@@ -561,8 +562,8 @@ class Parallels {
 	 * @return mixed
 	 */
 	public function getKeyNumbers($ips = array(), $macs = array()) {
-		myadmin_log('licenses', 'info', json_encode($this->ServerAddress($ips, $macs)), __LINE__, __FILE__);
-		$this->response = $this->xml->__call('partner10.getKeyNumbers', array($this->authInfo(), $this->ServerAddress($ips, $macs)));
+		myadmin_log('licenses', 'info', json_encode($this->serverAddress($ips, $macs)), __LINE__, __FILE__);
+		$this->response = $this->xml->__call('partner10.getKeyNumbers', array($this->authInfo(), $this->serverAddress($ips, $macs)));
 		return $this->response;
 		/* Success
 		Array

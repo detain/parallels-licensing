@@ -43,10 +43,10 @@ class ParallelsTest extends TestCase
     }
 
     /**
-     * @covers Detain\Parallels\Parallels::ServerAddress
-     * @todo   Implement testServerAddress().
+     * @covers Detain\Parallels\Parallels::serverAddress
+     * @todo   Implement testserverAddress().
      */
-    public function testServerAddress()
+    public function testserverAddress()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
