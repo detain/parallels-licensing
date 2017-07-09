@@ -6,7 +6,6 @@
  *
  * Last Changed: $LastChangedDate: 2017-05-31 06:50:39 -0400 (Wed, 31 May 2017) $
  * @author detain
- * @version $Revision: 24936 $
  * @copyright 2017
  * @package MyAdmin
  * @category Licenses
