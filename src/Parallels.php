@@ -556,7 +556,7 @@ class Parallels {
 	}
 
 	/**
-	 * @param array $ips
+	 * @param string $ips
 	 * @param array $macs
 	 * @return mixed
 	 */
