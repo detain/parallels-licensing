@@ -38,15 +38,15 @@ class Parallels {
 	 * @param NULL|array $xmlOptions array of optoins ot pass to xmlrpc2 client
 	 */
 	public function __construct($login = NULL, $password = NULL, $client = NULL, $demo = FALSE, $xmlOptions = NULL) {
-		if (is_null($login) && defined('PARALLELS_KA_LOGIN'))
+		if (null === $login && defined('PARALLELS_KA_LOGIN'))
 			$this->login = constant('PARALLELS_KA_LOGIN');
 		else
 			$this->login = $login;
-		if (is_null($password) && defined('PARALLELS_KA_PASSWORD'))
+		if (null === $password && defined('PARALLELS_KA_PASSWORD'))
 			$this->password = constant('PARALLELS_KA_PASSWORD');
 		else
 			$this->password = $password;
-		if (!is_null($client))
+		if (null !== $client)
 			$this->client = $client;
 		elseif (defined('PARALLELS_KA_CLIENT'))
 			$this->client = constant('PARALLELS_KA_CLIENT');
@@ -56,7 +56,7 @@ class Parallels {
 			$this->url = $this->defaultUrl;
 		else
 			$this->url = $demo;
-		if (!is_null($xmlOptions))
+		if (null !== $xmlOptions)
 			$this->xmlOptions = $xmlOptions;
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
