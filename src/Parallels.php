@@ -83,7 +83,7 @@ class Parallels {
 			$macs = [$macs];
 		return [
 			'ips' => $ips,
-			'macs' => $macs,
+			'macs' => $macs
 		];
 	}
 
