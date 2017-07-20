@@ -60,7 +60,7 @@ class Parallels {
 			$this->xmlOptions = $xmlOptions;
 		if (!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
-		require_once('XML/RPC2/Client.php');
+		require_once 'XML/RPC2/Client.php';
 		$this->xml = \XML_RPC2_Client::create($this->url, $this->xmlOptions);
 	}
 
@@ -150,12 +150,10 @@ class Parallels {
 		if (!is_array($ips) && $ips != '')
 			$ips = [$ips];
 		$this->response = $this->xml->__call('partner10.createKey', [
-			$this->authInfo(),
-			$this->serverAddress($ips, $macs),
-			($client === FALSE ? $this->client : $client),
-			$keyType,
-			$upgradePlans,
-			($licenseType === FALSE ? $this->LicenseType : $licenseType)
+			                                                          $this->authInfo(),
+			                                                          $this->serverAddress($ips, $macs), $client === FALSE ? $this->client : $client,
+			                                                          $keyType,
+			                                                          $upgradePlans, $licenseType === FALSE ? $this->LicenseType : $licenseType
 		]
 		);
 		return $this->response;
@@ -692,7 +690,7 @@ class Parallels {
 	 * @return mixed
 	 */
 	public function getAvailableKeyTypesAndFeatures($client = FALSE) {
-		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', [$this->authInfo(), ($client === FALSE ? $this->client : $client)]);
+		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', [$this->authInfo(), $client === FALSE ? $this->client : $client]);
 		return $this->response;
 		/* My Output:
 		Array
