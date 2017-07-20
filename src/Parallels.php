@@ -556,8 +556,8 @@ class Parallels {
 	}
 
 	/**
-	 * @param string $ips
-	 * @param array $macs
+	 * @param array|string $ips
+	 * @param array        $macs
 	 * @return mixed
 	 */
 	public function getKeyNumbers($ips = array(), $macs = array()) {
