@@ -1,5 +1,5 @@
 {
-    "name": "detain\/parallels-licensing",
+    "name": "detain/parallels-licensing",
     "type": "library",
     "description": "Parallels Licensing Class",
     "keywords": [
@@ -21,15 +21,15 @@
     "require": {
         "php": ">=5.3.0",
         "ext-soap": "*",
-        "pear\/xml_rpc2": "*",
-        "roave\/security-advisories": "dev-master"
+        "pear/xml_rpc2": "*",
+        "roave/security-advisories": "dev-master"
     },
     "require-dev": {
-        "phpunit\/phpunit": "*",
-        "vlucas\/phpdotenv": "*",
-        "codeclimate\/php-test-reporter": "dev-master",
-        "satooshi\/php-coveralls": "*",
-        "codacy\/coverage": "dev-master"
+        "phpunit/phpunit": "*",
+        "vlucas/phpdotenv": "*",
+        "codeclimate/php-test-reporter": "dev-master",
+        "satooshi/php-coveralls": "*",
+        "codacy/coverage": "dev-master"
     },
     "autoload": {
         "psr-4": {
