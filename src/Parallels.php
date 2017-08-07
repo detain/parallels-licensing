@@ -153,7 +153,7 @@ class Parallels {
 			                                                          $this->authInfo(),
 			                                                          $this->serverAddress($ips, $macs), $client === FALSE ? $this->client : $client,
 			                                                          $keyType,
-			                                                          $upgradePlans, $licenseType === FALSE ? $this->LicenseType : $licenseType
+			                                                          $upgradePlans, $licenseType === FALSE ? $this->licenseType : $licenseType
 		]
 		);
 		return $this->response;
