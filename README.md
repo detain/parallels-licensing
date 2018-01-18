@@ -24,5 +24,5 @@ composer require detain/parallels-licensing
 
 ## License
 
-The Parallels Licensing Class class is licensed under the LGPL-v2 license.
+The Parallels Licensing Class class is licensed under the LGPL-v2.1 license.
 
