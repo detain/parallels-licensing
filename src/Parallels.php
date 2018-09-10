@@ -19,9 +19,10 @@ use XML_RPC2_Client;
  *
  * @access public
  */
-class Parallels {
+class Parallels
+{
 	public $licenseType = 'billing'; // billing or purchase
-	private $xmlOptions = ['sslverify' => FALSE];
+	private $xmlOptions = ['sslverify' => false];
 	private $defaultUrl = 'https://ka.parallels.com:7050/';
 	private $defaultDemoUrl = 'https://kademo.parallels.com:7050/';
 	public $url = '';
@@ -38,27 +39,33 @@ class Parallels {
 	 * @param bool $demo defaults to FALSE, whether or not to use the demo interface instae dof the normal one
 	 * @param NULL|array $xmlOptions array of optoins ot pass to xmlrpc2 client
 	 */
-	public function __construct($login = NULL, $password = NULL, $client = NULL, $demo = FALSE, $xmlOptions = NULL) {
-		if (NULL === $login && defined('PARALLELS_KA_LOGIN'))
+	public function __construct($login = null, $password = null, $client = null, $demo = false, $xmlOptions = null)
+	{
+		if (null === $login && defined('PARALLELS_KA_LOGIN')) {
 			$this->login = constant('PARALLELS_KA_LOGIN');
-		else
+		} else {
 			$this->login = $login;
-		if (NULL === $password && defined('PARALLELS_KA_PASSWORD'))
+		}
+		if (null === $password && defined('PARALLELS_KA_PASSWORD')) {
 			$this->password = constant('PARALLELS_KA_PASSWORD');
-		else
+		} else {
 			$this->password = $password;
-		if (NULL !== $client)
+		}
+		if (null !== $client) {
 			$this->client = $client;
-		elseif (defined('PARALLELS_KA_CLIENT'))
+		} elseif (defined('PARALLELS_KA_CLIENT')) {
 			$this->client = constant('PARALLELS_KA_CLIENT');
-		if ($demo === TRUE)
+		}
+		if ($demo === true) {
 			$this->url = $this->defaultDemoUrl;
-		elseif ($demo === FALSE)
+		} elseif ($demo === false) {
 			$this->url = $this->defaultUrl;
-		else
+		} else {
 			$this->url = $demo;
-		if (NULL !== $xmlOptions)
+		}
+		if (null !== $xmlOptions) {
 			$this->xmlOptions = $xmlOptions;
+		}
 		require_once 'XML/RPC2/Client.php';
 		$this->xml = \XML_RPC2_Client::create($this->url, $this->xmlOptions);
 	}
@@ -66,7 +73,8 @@ class Parallels {
 	/**
 	 * @return array
 	 */
-	public function authInfo() {
+	public function authInfo()
+	{
 		return ['login' => $this->login, 'password' => $this->password];
 	}
 
@@ -75,11 +83,14 @@ class Parallels {
 	 * @param array $macs
 	 * @return array
 	 */
-	public function serverAddress($ips = [], $macs = []) {
-		if (!is_array($ips) && $ips != '')
+	public function serverAddress($ips = [], $macs = [])
+	{
+		if (!is_array($ips) && $ips != '') {
 			$ips = [$ips];
-		if (!is_array($macs) && $macs != '')
+		}
+		if (!is_array($macs) && $macs != '') {
 			$macs = [$macs];
+		}
 		return [
 			'ips' => $ips,
 			'macs' => $macs
@@ -90,7 +101,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function terminateKey($key) {
+	public function terminateKey($key)
+	{
 		$this->response = $this->xml->__call('partner10.terminateKey', [$this->authInfo(), $key]);
 		return $this->response;
 	}
@@ -99,7 +111,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function resetKey($key) {
+	public function resetKey($key)
+	{
 		$this->response = $this->xml->__call('partner10.resetKey', [$this->authInfo(), $key]);
 		return $this->response;
 	}
@@ -108,7 +121,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function activateKey($key) {
+	public function activateKey($key)
+	{
 		$this->response = $this->xml->__call('partner10.activateKey', [$this->authInfo(), $key]);
 		return $this->response;
 	}
@@ -118,7 +132,8 @@ class Parallels {
 	 * @param $note
 	 * @return mixed
 	 */
-	public function addNoteToKey($key, $note) {
+	public function addNoteToKey($key, $note)
+	{
 		$this->response = $this->xml->__call('partner10.addNoteToKey', [$this->authInfo(), $key, $note]);
 		return $this->response;
 	}
@@ -128,11 +143,13 @@ class Parallels {
 	 * @param bool $email
 	 * @return mixed
 	 */
-	public function sendKeyByEmail($key, $email = FALSE) {
-		if ($email === FALSE)
+	public function sendKeyByEmail($key, $email = false)
+	{
+		if ($email === false) {
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', [$this->authInfo(), $key]);
-		else
+		} else {
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', [$this->authInfo(), $key, $email]);
+		}
 		return $this->response;
 	}
 
@@ -145,14 +162,16 @@ class Parallels {
 	 * @param bool  $client
 	 * @return mixed
 	 */
-	public function createKey($keyType, $upgradePlans = [], $ips = [], $macs = [], $licenseType = FALSE, $client = FALSE) {
-		if (!is_array($ips) && $ips != '')
+	public function createKey($keyType, $upgradePlans = [], $ips = [], $macs = [], $licenseType = false, $client = false)
+	{
+		if (!is_array($ips) && $ips != '') {
 			$ips = [$ips];
+		}
 		$this->response = $this->xml->__call('partner10.createKey', [
 																	  $this->authInfo(),
-																	  $this->serverAddress($ips, $macs), $client === FALSE ? $this->client : $client,
+																	  $this->serverAddress($ips, $macs), $client === false ? $this->client : $client,
 																	  $keyType,
-																	  $upgradePlans, $licenseType === FALSE ? $this->licenseType : $licenseType
+																	  $upgradePlans, $licenseType === false ? $this->licenseType : $licenseType
 		]
 		);
 		return $this->response;
@@ -189,7 +208,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function retrieveKey($key) {
+	public function retrieveKey($key)
+	{
 		$this->response = $this->xml->__call('partner10.retrieveKey', [$this->authInfo(), $key]);
 		return $this->response;
 		/* Success
@@ -350,7 +370,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function getAvailableUpgrades($key) {
+	public function getAvailableUpgrades($key)
+	{
 		$this->response = $this->xml->__call('partner10.getAvailableUpgrades', [$this->authInfo(), $key]);
 		return $this->response;
 	}
@@ -519,7 +540,8 @@ class Parallels {
 	 * @param $key
 	 * @return mixed
 	 */
-	public function getKeyInfo($key) {
+	public function getKeyInfo($key)
+	{
 		$this->response = $this->xml->__call('partner10.getKeyInfo', [$this->authInfo(), $key]);
 		return $this->response;
 	}
@@ -528,28 +550,33 @@ class Parallels {
 	 * @param string $ipAddress the ip address
 	 * @return false|string false if no key , or a string w/ the key
 	 */
-	public function getMainKeyFromIp($ipAddress) {
+	public function getMainKeyFromIp($ipAddress)
+	{
 		$response = $this->getKeyNumbers($ipAddress);
 		//$response = $this->getKeysInfoByIP($ipAddress);
-		$return = FALSE;
+		$return = false;
 		if (isset($response['keyInfos'])) {
 			$responseValues = array_values($response['keyInfos']);
 			foreach ($responseValues as $data) {
-				if ($return === FALSE)
+				if ($return === false) {
 					$return = $data['keyNumber'];
-				if ($data['type'] == 'MAIN')
+				}
+				if ($data['type'] == 'MAIN') {
 					$return = $data['keyNumber'];
+				}
 			}
 			return $return;
-		} else
-			return FALSE;
+		} else {
+			return false;
+		}
 	}
 
 	/**
 	 * @param $ipAddress
 	 * @return mixed
 	 */
-	public function getKeysInfoByIP($ipAddress) {
+	public function getKeysInfoByIP($ipAddress)
+	{
 		$this->response = $this->xml->__call('partner10.getKeysInfoByIP', [$this->authInfo(), $ipAddress]);
 		return $this->response;
 	}
@@ -559,7 +586,8 @@ class Parallels {
 	 * @param array        $macs
 	 * @return mixed
 	 */
-	public function getKeyNumbers($ips = [], $macs = []) {
+	public function getKeyNumbers($ips = [], $macs = [])
+	{
 		myadmin_log('licenses', 'info', json_encode($this->serverAddress($ips, $macs)), __LINE__, __FILE__);
 		$this->response = $this->xml->__call('partner10.getKeyNumbers', [$this->authInfo(), $this->serverAddress($ips, $macs)]);
 		return $this->response;
@@ -688,8 +716,9 @@ class Parallels {
 	 * @param bool $client
 	 * @return mixed
 	 */
-	public function getAvailableKeyTypesAndFeatures($client = FALSE) {
-		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', [$this->authInfo(), $client === FALSE ? $this->client : $client]);
+	public function getAvailableKeyTypesAndFeatures($client = false)
+	{
+		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', [$this->authInfo(), $client === false ? $this->client : $client]);
 		return $this->response;
 		/* My Output:
 		Array
@@ -998,5 +1027,4 @@ class Parallels {
 		)
 		*/
 	}
-
 }
