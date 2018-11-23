@@ -5,7 +5,7 @@
  * API Documentation at: .. ill fill this in later from forum posts
  *
  * @author Joe Huss <detain@interserver.net>
- * @copyright 2018
+ * @copyright 2019
  * @package MyAdmin
  * @category Licenses
  */
