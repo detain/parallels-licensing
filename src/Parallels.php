@@ -12,6 +12,8 @@
 
 namespace Detain\Parallels;
 
+require_once __DIR__.'/../../../workerman/statistics/Applications/Statistics/Clients/StatisticClient.php';
+
 use XML_RPC2_Client;
 
 /**
@@ -103,7 +105,12 @@ class Parallels
 	 */
 	public function terminateKey($key)
 	{
+        \StatisticClient::tick('Parallels', 'terminateKey');
 		$this->response = $this->xml->__call('partner10.terminateKey', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'terminateKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'terminateKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -113,7 +120,12 @@ class Parallels
 	 */
 	public function resetKey($key)
 	{
+        \StatisticClient::tick('Parallels', 'resetKey');
 		$this->response = $this->xml->__call('partner10.resetKey', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'resetKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'resetKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -123,7 +135,12 @@ class Parallels
 	 */
 	public function activateKey($key)
 	{
+        \StatisticClient::tick('Parallels', 'activateKey');
 		$this->response = $this->xml->__call('partner10.activateKey', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'activateKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'activateKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -134,7 +151,12 @@ class Parallels
 	 */
 	public function addNoteToKey($key, $note)
 	{
+        \StatisticClient::tick('Parallels', 'addNoteToKey');
 		$this->response = $this->xml->__call('partner10.addNoteToKey', [$this->authInfo(), $key, $note]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'addNoteToKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'addNoteToKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -145,11 +167,16 @@ class Parallels
 	 */
 	public function sendKeyByEmail($key, $email = false)
 	{
+        \StatisticClient::tick('Parallels', 'sendKeyByEmail');
 		if ($email === false) {
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', [$this->authInfo(), $key]);
 		} else {
 			$this->response = $this->xml->__call('partner10.sendKeyByEmail', [$this->authInfo(), $key, $email]);
 		}
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'sendKeyByEmail', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'sendKeyByEmail', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -167,6 +194,7 @@ class Parallels
 		if (!is_array($ips) && $ips != '') {
 			$ips = [$ips];
 		}
+        \StatisticClient::tick('Parallels', 'createKey');
 		$this->response = $this->xml->__call('partner10.createKey', [
 																	  $this->authInfo(),
 																	  $this->serverAddress($ips, $macs), $client === false ? $this->client : $client,
@@ -174,6 +202,10 @@ class Parallels
 																	  $upgradePlans, $licenseType === false ? $this->licenseType : $licenseType
 		]
 		);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'createKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'createKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 		/* Success:
 		Array
@@ -210,7 +242,12 @@ class Parallels
 	 */
 	public function retrieveKey($key)
 	{
+        \StatisticClient::tick('Parallels', 'retrieveKey');
 		$this->response = $this->xml->__call('partner10.retrieveKey', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'retrieveKey', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'retrieveKey', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 		/* Success
 		Array
@@ -372,7 +409,12 @@ class Parallels
 	 */
 	public function getAvailableUpgrades($key)
 	{
+        \StatisticClient::tick('Parallels', 'getAvailableUpgrades');
 		$this->response = $this->xml->__call('partner10.getAvailableUpgrades', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'getAvailableUpgrades', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'getAvailableUpgrades', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -542,7 +584,12 @@ class Parallels
 	 */
 	public function getKeyInfo($key)
 	{
+        \StatisticClient::tick('Parallels', 'getKeyInfo');
 		$this->response = $this->xml->__call('partner10.getKeyInfo', [$this->authInfo(), $key]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'getKeyInfo', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'getKeyInfo', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -577,7 +624,12 @@ class Parallels
 	 */
 	public function getKeysInfoByIP($ipAddress)
 	{
+        \StatisticClient::tick('Parallels', 'getKeysInfoByIP');
 		$this->response = $this->xml->__call('partner10.getKeysInfoByIP', [$this->authInfo(), $ipAddress]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'getKeysInfoByIP', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'getKeysInfoByIP', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 	}
 
@@ -589,8 +641,13 @@ class Parallels
 	public function getKeyNumbers($ips = [], $macs = [])
 	{
 		myadmin_log('licenses', 'info', json_encode($this->serverAddress($ips, $macs)), __LINE__, __FILE__);
+        \StatisticClient::tick('Parallels', 'getKeyNumbers');
 		$this->response = $this->xml->__call('partner10.getKeyNumbers', [$this->authInfo(), $this->serverAddress($ips, $macs)]);
-		return $this->response;
+	    if ($this->response === false)
+            \StatisticClient::report('Parallels', 'getKeyNumbers', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'getKeyNumbers', true, 0, '', STATISTICS_SERVER);
+        return $this->response;
 		/* Success
 		Array
 		(
@@ -718,7 +775,12 @@ class Parallels
 	 */
 	public function getAvailableKeyTypesAndFeatures($client = false)
 	{
+        \StatisticClient::tick('Parallels', 'getAvailableKeyTypesAndFeatures');
 		$this->response = $this->xml->__call('partner10.getAvailableKeyTypesAndFeatures', [$this->authInfo(), $client === false ? $this->client : $client]);
+        if ($this->response === false)
+            \StatisticClient::report('Parallels', 'getAvailableKeyTypesAndFeatures', false, 1, 'XML Call Error', STATISTICS_SERVER);
+        else
+            \StatisticClient::report('Parallels', 'getAvailableKeyTypesAndFeatures', true, 0, '', STATISTICS_SERVER);
 		return $this->response;
 		/* My Output:
 		Array
