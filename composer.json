@@ -4,8 +4,24 @@
 	"description": "Parallels Licensing Class",
 	"keywords": [
 		"parallels",
-		"administration",
-		"license"
+		"parallels-plesk",
+		"plesk",
+		"license",
+		"license-key",
+		"license-management",
+		"software-license",
+		"software-licensing",
+		"licensing",
+		"api",
+		"automation",
+		"billing",
+		"saas",
+		"subscription",
+		"reseller",
+		"virtualization",
+		"whm",
+		"whmcs",
+		"administration"
 	],
 	"license": "LGPL-2.1-only",
 	"authors": [
